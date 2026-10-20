@@ -1,0 +1,30 @@
+# Local environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+
+# Private recordings, transcripts, task history, and local settings
+data/
+.env
+.env.*
+!.env.example
+*.log
+
+# Model weights, bundled tools, and generated applications
+models/*.pt
+models/*.bin
+windows/models/*.pt
+bin/
+!windows/bin/
+windows/bin/*
+!windows/bin/README.txt
+build/
+dist/
+*.dmg
+*.exe
+*.zip
