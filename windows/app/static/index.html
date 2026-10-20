@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>录音转文字</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <div class="heading">
+          <h1>录音转文字</h1>
+          <p>本地 CPU 转写，支持 mp3、wav、m4a，默认 medium 模型，结果导出为 TXT。</p>
+        </div>
+
+        <form id="uploadForm" class="upload">
+          <label class="fileBox">
+            <input id="audioFile" name="file" type="file" accept=".mp3,.wav,.m4a,audio/mpeg,audio/wav,audio/x-m4a,audio/mp4" />
+            <span id="fileLabel">选择录音文件</span>
+          </label>
+
+          <label class="field">
+            <span>模型</span>
+            <select id="model" name="model">
+              <option value="medium" selected>medium 最佳质量</option>
+              <option value="small">small 较准</option>
+              <option value="base">base 更轻</option>
+              <option value="tiny">tiny 更快</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>语言</span>
+            <select id="language" name="language">
+              <option value="auto" selected>自动识别</option>
+              <option value="ja">日语</option>
+              <option value="zh">中文</option>
+              <option value="en">英语</option>
+            </select>
+          </label>
+
+          <button id="startButton" type="submit">开始转写</button>
+        </form>
+
+        <div id="message" class="message" hidden></div>
+      </section>
+
+      <section class="panel">
+        <div class="sectionTitle">
+          <h2>当前任务</h2>
+          <button id="refreshButton" type="button">刷新</button>
+        </div>
+        <div id="currentTask" class="tasks"></div>
+      </section>
+
+      <section class="panel">
+        <div class="sectionTitle">
+          <h2>最近结果</h2>
+        </div>
+        <div id="tasks" class="tasks"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
