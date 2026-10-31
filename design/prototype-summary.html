@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- REVIEW PROTOTYPE: three layouts, ?variant=workspace|wizard|reader.
+     Synthetic content and in-memory state only. No application API calls. -->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>总结与分析 · ASR Web Lite 设计预览</title>
+  <link rel="stylesheet" href="prototype-summary.css">
+</head>
+<body>
+  <div class="review-banner"><span class="preview-dot" aria-hidden="true"></span>设计预览 <span>虚构示例 · 未连接真实模型 · 编辑仅在本页保留</span></div>
+  <header class="app-header"><a class="brand" href="?variant=workspace"><span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span><span>ASR Web Lite<small>把声音，变成值得留下的内容</small></span></a><div class="header-actions"><span class="local-label">你的文稿工作室</span><button data-action="connection" class="quiet">模型设置 <span aria-hidden="true">↗</span></button></div></header>
+  <main id="app"></main>
+  <aside class="prototype-bar" aria-label="设计审核工具">
+    <button data-action="previous" aria-label="上一个布局">←</button><div><small>切换布局 · <span id="variant-count"></span></small><strong id="variant-name"></strong></div><button data-action="next" aria-label="下一个布局">→</button>
+    <span class="tool-divider"></span><label>下次生成<select id="scenario"><option value="success">成功示例</option><option value="timeout">连接超时</option><option value="unconfigured">未配置模型</option></select></label>
+  </aside>
+  <dialog id="connection-dialog"><form id="connection-form"><div class="modal-head"><div><span class="eyebrow">模型连接</span><h2>选择你使用的模型</h2></div><button type="button" class="icon-button" data-action="close-connection" aria-label="关闭模型设置">×</button></div><p class="hint">这是设置界面演示，请勿输入真实密钥。不会发送网络请求。</p><label class="field">处理位置<select name="location"><option value="remote">远程模型服务</option><option value="local">自己的电脑</option></select></label><label class="field">连接名称<input name="name" value="我的示例连接" required maxlength="60"></label><label class="field">服务地址<input name="endpoint" value="https://model.example.invalid" type="url" required></label><label class="field">模型名称<input name="model" value="示例文本模型" required maxlength="60"></label><label class="field">API 密钥 <span class="hint">原型仅展示输入方式</span><input type="password" name="key" autocomplete="off" placeholder="请勿填写真实密钥"></label><p id="connection-feedback" class="hint" role="status"></p><div class="modal-foot"><button type="button" data-action="check-connection" class="quiet">检查示例设置</button><button class="primary" type="submit">使用这组设置</button></div></form></dialog>
+  <dialog id="document-dialog"><form id="document-form"><div class="modal-head"><div><span class="eyebrow">文稿</span><h2 id="document-dialog-title">导入文字</h2></div><button type="button" class="icon-button" data-action="close-document" aria-label="关闭文稿编辑">×</button></div><label class="field">标题<input id="document-name" required maxlength="100"></label><label class="field">正文<textarea id="document-text" rows="12" required placeholder="粘贴文字，每个自然段用空行分开。"></textarea></label><p class="hint">示例稿有预设分析结果。自定义文字可预览导入和校对流程；分析需在正式版连接模型后生成。</p><div class="modal-foot"><button type="button" data-action="close-document" class="quiet">取消</button><button type="submit" class="primary">确认文稿</button></div></form></dialog>
+  <div id="toast" role="status" hidden></div>
+  <script src="prototype-summary.js"></script>
+</body>
+</html>
