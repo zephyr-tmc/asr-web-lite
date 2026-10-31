@@ -6,6 +6,10 @@ A local audio transcription application with a browser interface. FastAPI and Op
 
 **Python / FastAPI / Whisper / FFmpeg / JavaScript / PyInstaller**
 
+## Transcript workspace
+
+The new [workspace](docs/WORKSPACE.md) imports text or completed transcripts and connects to a user-configured Chat Completions compatible service for summaries and structure analysis. It saves document versions and results locally in SQLite, with source references, audio replay, editing, and Markdown export. ASR remains local; generation sends the selected transcript to the configured endpoint. API keys stay in process memory and must be re-entered after restart.
+
 ## Problem
 
 Running speech recognition should not require repeating terminal commands or sending recordings to an external transcription service. This application provides a browser interface while keeping audio processing on the local machine.
