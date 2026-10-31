@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+import json
 import sys
 from contextlib import contextmanager
 from pathlib import Path
@@ -45,6 +46,9 @@ def transcribe_file(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     if not text:
         raise RuntimeError("转写结果为空，请检查音频是否有人声或尝试更大的模型。")
+    output_path.with_suffix(".json").write_text(
+        json.dumps({"segments": result.get("segments", []), "language": result.get("language")},
+                   ensure_ascii=False), encoding="utf-8")
     output_path.write_text(text + "\n", encoding="utf-8")
     progress(status="completed", stage="已完成", progress=100, output_path=str(output_path), preview_text=text[-1200:])
     return output_path
