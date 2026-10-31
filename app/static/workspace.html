@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>文稿工作室 · ASR Web Lite</title>
+    <link rel="stylesheet" href="/static/workspace.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand" href="/workspace"
+        ><span class="brand-mark" aria-hidden="true"
+          ><b></b><b></b><b></b><b></b><b></b></span
+        ><span>ASR Web Lite<small>把声音，变成值得留下的内容</small></span></a
+      >
+      <div class="header-actions">
+        <a href="/">录音转文字</a
+        ><button data-action="connection">模型设置 ↗</button>
+      </div>
+    </header>
+    <main>
+      <div id="message" class="workspace-message" role="alert"></div>
+      <div id="app"><p class="hint">正在读取文稿…</p></div>
+    </main>
+    <dialog id="connection-dialog">
+      <form id="connection-form">
+        <div class="modal-head">
+          <div>
+            <span class="eyebrow">模型连接</span>
+            <h2>选择你使用的模型</h2>
+          </div>
+          <button
+            type="button"
+            class="icon-button"
+            data-close="connection-dialog"
+            aria-label="关闭设置"
+          >
+            ×
+          </button>
+        </div>
+        <p class="hint">
+          支持 Chat Completions 兼容服务。生成时将所选文稿发送至这个地址；ASR
+          仍在本机运行。
+        </p>
+        <label class="field"
+          >连接名称<input
+            name="name"
+            required
+            maxlength="100"
+            placeholder="例如：我的本机模型" /></label
+        ><label class="field"
+          >服务地址或 /v1 基址<input
+            name="endpoint"
+            type="url"
+            required
+            placeholder="http://127.0.0.1:11434/v1" /></label
+        ><label class="field"
+          >模型名称<input
+            name="model"
+            required
+            maxlength="200"
+            placeholder="填写服务中可用的模型名称" /></label
+        ><label class="field"
+          >API 密钥（本机服务可留空）<input
+            name="key"
+            type="password"
+            autocomplete="off"
+            maxlength="4096"
+            placeholder="留空沿用相同地址的本次密钥"
+        /></label>
+        <p class="hint">
+          密钥只在本次服务进程内存中保留，重启后需重新填写。更换地址不会沿用旧密钥。保存设置不代表服务已验证可用。
+        </p>
+        <p class="form-error" role="alert"></p>
+        <div class="modal-foot">
+          <button type="submit" class="primary">保存连接</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="document-dialog">
+      <form id="document-form">
+        <div class="modal-head">
+          <h2 id="document-modal-title">导入文字</h2>
+          <button
+            type="button"
+            class="icon-button"
+            data-close="document-dialog"
+            aria-label="关闭文稿"
+          >
+            ×
+          </button>
+        </div>
+        <label class="field"
+          >标题<input id="document-title" required maxlength="200" /></label
+        ><label class="field"
+          >正文<textarea
+            id="document-text"
+            rows="13"
+            required
+            maxlength="500000"
+            placeholder="粘贴文稿，各段之间用空行分开。"
+          ></textarea>
+        </label>
+        <p class="hint">
+          导入文字保存在本机；音频请从“录音转文字”上传。单次生成最多 32,000
+          字符，长文请分段处理。
+        </p>
+        <p class="form-error" role="alert"></p>
+        <div class="modal-foot">
+          <button type="submit" class="primary">保存文稿</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast" hidden role="status"></div>
+    <script src="/static/workspace.js"></script>
+  </body>
+</html>

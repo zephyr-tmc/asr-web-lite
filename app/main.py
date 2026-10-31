@@ -10,6 +10,8 @@ from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from asr_workspace.routes import mount_workspace
+
 from app.audio import ffmpeg_status, validate_audio_file
 from app.tasks import TaskStore
 from app.transcribe import transcribe_file
@@ -37,11 +39,17 @@ executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="asr-task")
 app = FastAPI(title="ASR Web Lite")
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 store.mark_unfinished_interrupted()
+workspace = mount_workspace(app, DATA_DIR, store)
 
 
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/workspace")
+def workspace_page() -> FileResponse:
+    return FileResponse(STATIC_DIR / "workspace.html")
 
 
 @app.get("/api/health")

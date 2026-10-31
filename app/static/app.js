@@ -92,7 +92,7 @@ function renderHistory(tasks) {
 function renderTaskCard(task, options) {
   const progress = Number(task.progress || 0);
   const statusText = task.status === "completed" ? "完成" : task.status === "failed" ? "失败" : task.status === "running" ? "处理中" : "等待中";
-  const download = task.status === "completed" ? `<a class="download" href="/api/tasks/${task.id}/download">下载 TXT</a>` : "";
+  const download = task.status === "completed" ? `<a class="download" href="/api/tasks/${task.id}/download">下载 TXT</a> <a class="download" href="/workspace?task=${task.id}">总结／分析</a>` : "";
   const retry = task.status === "failed" ? `<button class="retry" type="button" data-retry="${task.id}">重新转写</button>` : "";
   const error = task.error ? `<div class="error">${escapeHtml(task.error)}</div>` : "";
   const segment = task.total_segments ? `第 ${task.current_segment || 0} / ${task.total_segments} 段` : "";

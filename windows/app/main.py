@@ -2,12 +2,18 @@ from __future__ import annotations
 
 import re
 import shutil
+import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+
+if not getattr(sys, "frozen", False):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from asr_workspace.routes import mount_workspace
 
 from app.audio import ffmpeg_status, validate_audio_file
 from app.paths import data_dir, first_existing_resource
@@ -20,7 +26,8 @@ DATA_DIR = data_dir()
 UPLOADS_DIR = DATA_DIR / "uploads"
 WORK_DIR = DATA_DIR / "work"
 OUTPUTS_DIR = DATA_DIR / "outputs"
-STATIC_DIR = first_existing_resource("app", "static")
+STATIC_DIR = (first_existing_resource("app", "static") if getattr(sys, "frozen", False)
+              else Path(__file__).resolve().parents[2] / "app" / "static")
 MAX_UPLOAD_BYTES = 500 * 1024 * 1024
 MODELS = {"tiny", "base", "small", "medium"}
 LANGUAGES = {"auto": None, "ja": "ja", "zh": "zh", "en": "en"}
@@ -33,11 +40,17 @@ executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="asr-task")
 app = FastAPI(title="ASR Web Lite")
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 store.mark_unfinished_interrupted()
+workspace = mount_workspace(app, DATA_DIR, store)
 
 
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/workspace")
+def workspace_page() -> FileResponse:
+    return FileResponse(STATIC_DIR / "workspace.html")
 
 
 @app.get("/api/health")

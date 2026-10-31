@@ -6,7 +6,7 @@ from PyInstaller.utils.hooks import collect_data_files
 
 root = Path.cwd()
 datas = [
-    (str(root / "app" / "static"), "app/static"),
+    (str(root.parent / "app" / "static"), "app/static"),
     (str(root / "models" / "medium.pt"), "models"),
 ]
 datas += collect_data_files("whisper")
@@ -20,7 +20,7 @@ binaries = [
 
 a = Analysis(
     ["launcher.py"],
-    pathex=[str(root)],
+    pathex=[str(root), str(root.parent)],
     binaries=binaries,
     datas=datas,
     hiddenimports=["tiktoken_ext", "tiktoken_ext.openai_public"],

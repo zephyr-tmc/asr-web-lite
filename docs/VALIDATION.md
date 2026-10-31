@@ -1,5 +1,16 @@
 # 検証 / 验证 / Validation
 
+## Transcript workspace — 2026-10-31
+
+- Python syntax/import checks passed for the macOS source, shared workspace modules and Windows source. Windows source imports resolve the shared backend and static resources from the repository root.
+- `python -m unittest discover -s tests -v`: 11 tests passed. Coverage includes version conflicts, persisted edited results and snapshots, canonical Markdown export, credential masking (including invalid requests), cross-origin/Host restrictions, cancellation, input limits, ASR result import and timestamp identity after reordering/deleting repeated paragraphs.
+- JavaScript syntax and `git diff --check` passed.
+- In-browser workflow passed against a real local HTTP fixture: import text, configure a compatible endpoint, generate, locate sources, edit, save, reload and retain source links. HTTP checks also verified the original transcription entry and canonical download content. The fixture runs outside the repository; no test model result or connection is hard-coded in the application.
+- Two-axis code review completed. Standards: canonical Markdown duplication resolved. Spec: cancellation/document isolation, audio identity, citations after editing and audio continuity were corrected; no outstanding findings remained in follow-up review.
+- No real third-party model credentials or personal recordings were used. Live model quality, Whisper accuracy and macOS/Windows binary packaging were not retested. Browser inspection covered the current narrow preview viewport, not a full device/accessibility matrix.
+
+## Publication preparation — 2026-10-20
+
 Date: 2026-10-20. Platform: macOS arm64. Runtime: Python 3.12.8, using the existing ASR development environment.
 
 ## Checks performed
